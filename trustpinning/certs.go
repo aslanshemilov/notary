@@ -123,7 +123,7 @@ func ValidateRoot(certStore trustmanager.X509Store, root *data.Signed, gun strin
 		logrus.Debugf("found %d valid root certificates for %s: %s", len(trustedCerts), gun,
 			prettyFormatCertIDs(trustedCerts))
 		err = signed.VerifySignatures(
-			root, data.BaseRole{Keys: trustmanager.CertsToKeys(trustedCerts, allIntCerts), Threshold: 1})
+			root, data.BaseRole{Keys: trustmanager.CertsToKeys(trustedCerts, nil), Threshold: 1})
 		if err != nil {
 			logrus.Debugf("failed to verify TUF data for: %s, %v", gun, err)
 			return &ErrValidationFail{Reason: "failed to validate data with current trusted certificates"}

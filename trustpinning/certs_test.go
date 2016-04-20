@@ -286,7 +286,7 @@ func TestValidateRootWithPinnedCert(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestValidateRootWithPinnerCertAndIntermediates(t *testing.T) {
+func TestValidateRootWithPinnedCertAndIntermediates(t *testing.T) {
 	now := time.Now()
 	serialNumberLimit := new(big.Int).Lsh(big.NewInt(1), 128)
 
@@ -459,6 +459,9 @@ func TestValidateRootWithPinnerCertAndIntermediates(t *testing.T) {
 		},
 	)
 	require.NoError(t, err, "failed to validate certID with intermediate")
+
+	err = ValidateRoot(certStore, signedRoot, "docker.io/notary/test", TrustPinConfig{})
+	require.NoError(t, err)
 }
 
 func TestValidateRootFailuresWithPinnedCert(t *testing.T) {
